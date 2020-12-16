@@ -48,13 +48,15 @@ int columns;
 int rows;
 int[] place;
 int charsize = 1;
-int   steps = 5;  // Rosolucion cuerpo
-float scale = 0.45; //Scale cuerpo
+int   steps = 2;  // Rosolucion cuerpo
+float scale = 0.45; //Escala cuerpo
 
 //Body
 boolean bodyColor = true;
+PVector jointPosHead = new PVector(0, 0, 0);
 PVector jointPosLeft = new PVector(0, 0, 0);
 PVector jointPosRight = new PVector(0, 0, 0);  
+int handSize = 20; // Tamaño mano
 
 
 void setup()
@@ -118,6 +120,7 @@ void draw()
   drawMatrix();
   drawBody();
   drawHands();
+  drawHead();
   drawSensor();
 }
 
@@ -155,11 +158,11 @@ void drawBody() {
   int     index;
   PVector realWorldPoint;
   // draw the pointcloud
-   if (bodyColor) {
+  if (bodyColor) {
     stroke(userClr[ int(random(userClr.length - 1))]);
     fill(userClr[ int(random(userClr.length - 1))]);
   }
-  
+
 
   for (int y=0; y < context.depthHeight (); y+=steps)
   {
@@ -171,7 +174,7 @@ void drawBody() {
       if (userMap[index] == 0) {
         stroke(100);
       } else {
-        text(letters[int(random(letters.length-1))], realWorldPoint.x, -realWorldPoint.y , realWorldPoint.z);
+        text(letters[int(random(letters.length-1))], realWorldPoint.x, -realWorldPoint.y, realWorldPoint.z);
       }
     }
   }
@@ -179,7 +182,32 @@ void drawBody() {
 
 // Draw Hands
 void drawHands() {
- 
+  int[] userList = context.getUsers();
+
+  for (int i=0; i<userList.length; i++)
+  {
+    if (context.isTrackingSkeleton(userList[i])) {
+      context.getJointPositionSkeleton(userList[i], SimpleOpenNI.SKEL_HEAD, jointPosHead);
+      context.getJointPositionSkeleton(userList[i], SimpleOpenNI.SKEL_LEFT_HAND, jointPosLeft);
+      context.getJointPositionSkeleton(userList[i], SimpleOpenNI.SKEL_RIGHT_HAND, jointPosRight);       
+      ellipse(jointPosLeft.x, -jointPosLeft.y, handSize, handSize);
+      ellipse(jointPosRight.x, -jointPosRight.y, handSize, handSize);
+      ellipse(jointPosHead.x, -jointPosHead.y, handSize, handSize);
+    }
+  }
+}
+
+// Draw Head
+void drawHead() {
+  int[] userList = context.getUsers();
+
+  for (int i=0; i<userList.length; i++)
+  {
+    if (context.isTrackingSkeleton(userList[i])) {
+      context.getJointPositionSkeleton(userList[i], SimpleOpenNI.SKEL_HEAD, jointPosHead);      
+      ellipse(jointPosHead.x, -jointPosHead.y, handSize, handSize);
+    }
+  }
 }
 
 //Draw Sensor
@@ -347,4 +375,10 @@ void serialEvent(Serial p) {
     int inByte = p.read();
     eeg.serialByte(inByte);
   }
+}
+
+//user functions
+void onNewUser(SimpleOpenNI curContext, int userId)
+{
+  curContext.startTrackingSkeleton(userId);
 }
