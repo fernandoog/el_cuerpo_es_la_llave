@@ -1,6 +1,7 @@
 /* --------------------------------------------------------------------------
  * Based on Max Rheiner + Rodrigo Godo + Interactivas17 + MediaLab Prado
- * This version came from 
+ * This version came from Fernando Ortega Gorrita y Luis 
+ * https://www.medialab-prado.es/actividades/taller-corporal-con-sensores-reset-el-cuerpo-es-la-llave
  * 2020/12/16
  */
 
@@ -49,14 +50,15 @@ int rows;
 int[] place;
 int charsize = 1;
 int   steps = 2;  // Rosolucion cuerpo
-float scale = 0.45; //Escala cuerpo
+float scale = 0.50; //Escala cuerpo
 
 //Body
 boolean bodyColor = true;
 PVector jointPosHead = new PVector(0, 0, 0);
 PVector jointPosLeft = new PVector(0, 0, 0);
 PVector jointPosRight = new PVector(0, 0, 0);  
-int handSize = 20; // Tamaño mano
+int handSize = 40; // Tamaño mano
+int headSize = 150; // Tamaño cabeza
 
 
 void setup()
@@ -192,20 +194,23 @@ void drawHands() {
       context.getJointPositionSkeleton(userList[i], SimpleOpenNI.SKEL_RIGHT_HAND, jointPosRight);       
       ellipse(jointPosLeft.x, -jointPosLeft.y, handSize, handSize);
       ellipse(jointPosRight.x, -jointPosRight.y, handSize, handSize);
-      ellipse(jointPosHead.x, -jointPosHead.y, handSize, handSize);
     }
   }
 }
 
 // Draw Head
 void drawHead() {
+  noFill();
+  stroke(0);
+  fill(1, 102, 0);
+
   int[] userList = context.getUsers();
 
   for (int i=0; i<userList.length; i++)
   {
     if (context.isTrackingSkeleton(userList[i])) {
       context.getJointPositionSkeleton(userList[i], SimpleOpenNI.SKEL_HEAD, jointPosHead);      
-      ellipse(jointPosHead.x, -jointPosHead.y, handSize, handSize);
+      ellipse(jointPosHead.x, -jointPosHead.y, headSize, headSize);
     }
   }
 }
@@ -213,21 +218,24 @@ void drawHead() {
 //Draw Sensor
 void drawSensor() {
   if (sensor) {
-    // Draw signal
-    int lastEventInterval = millis() - eeg.lastEvent;
-    if (eeg.poorSignal < 50 && lastEventInterval < 500) {
-      // good signal
-      ellipse(10, 10, 10, 10);
-    } else {
-      // bad signal
-      ellipse(10, 10, 10, 10);
-    }
 
     // Draw attention
-    ellipse(400, 90, eeg.attention, eeg.attention);
+    noFill();
+    stroke(0);
+    ellipse(jointPosHead.x, -jointPosHead.y, headSize, headSize);
+    fill(255, 0, 0);
+    noStroke();
+    ellipse(jointPosHead.x, -jointPosHead.y, eeg.attention, eeg.attention);
+
 
     // Draw meditation
-    ellipse(600, 90, eeg.meditation, eeg.meditation);
+    noFill();
+    stroke(0);
+    ellipse(jointPosHead.x, -jointPosHead.y, headSize, headSize);
+    fill(0, 0, 255);
+    noStroke();
+    ellipse(jointPosHead.x, -jointPosHead.y,eeg.meditation, eeg.meditation);
+
 
     // Chart vector values
     // first get maximum value
@@ -305,7 +313,7 @@ void drawSensor() {
     prevX = 0; 
     prevY = 0;
 
-    stroke(204, 102, 0);
+    stroke(255, 0, 0);
 
     // we are drawing between 0 and 800 in width, and between 400 and 600 in height
     while (attentionIterator.hasNext()) {
@@ -346,7 +354,7 @@ void drawSensor() {
     prevX = 0; 
     prevY = 0;
 
-    stroke(108, 102, 240);
+    stroke(0, 0, 255);
 
     // we are drawing between 0 and 800 in width, and between 400 and 600 in height
     while (meditationIterator.hasNext()) {
