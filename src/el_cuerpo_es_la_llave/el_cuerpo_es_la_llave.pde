@@ -127,7 +127,21 @@ void drawMatrix() {
   rect(0, 0, width, height);
   context.update();
   stroke(0, 255, 0);
-  matrix(jointPosRight.x, jointPosRight.y);
+  fill(0, 255, 0);
+  for (int i = 0; i<20; i += 1) {   // star init
+    stars.add(new PVector(random(width), random(height), random(1, 3)));
+  }
+
+  for (int i = 0; i<stars.size (); i+=2) {
+    float x =stars.get(i).x;//local vars
+    float y =stars.get(i).y;
+    float d =stars.get(i).z;
+    stars.set(i, new PVector(x-map(jointPosRight.x, 0, width, -0.05, 0.05)*(w2-x), y-map(jointPosRight.y, 0, height, -0.05, 0.05)*(h2-y), d + 0.2 - 0.6 * noise(x, y, frameCount)));
+    if (d>3||d< -3) stars.set(i, new PVector(x, y, 1));
+    if (x<0||x>width||y<0||y>height) stars.remove(i);
+    if (stars.size()>9999) stars.remove(1);
+    text(letters[int(random(letters.length-1))], x, y, z);
+  }
 }
 
 // Draw Body
@@ -139,6 +153,11 @@ void drawBody() {
   // set the rotation center of the scene 1000 infront of the camera
 
   // draw the pointcloud
+   if (bodyColor) {
+    stroke(userClr[ int(random(userClr.length - 1))]);
+    fill(userClr[ int(random(userClr.length - 1))]);
+  }
+  
 
   for (int y=0; y < context.depthHeight (); y+=steps)
   {
@@ -150,7 +169,7 @@ void drawBody() {
       if (userMap[index] == 0) {
         stroke(100);
       } else {
-        pintaLetr(userMap, index,realWorldPoint);
+        text(letters[int(random(letters.length-1))], realWorldPoint.x, realWorldPoint.y, realWorldPoint.z);
       }
     }
   }
@@ -326,40 +345,6 @@ void drawSensor() {
       prevY = y;
       j++;
     }
-  }
-}
-
-// Draw Letters whith map
-void pintaLetr(int[] _userMap, int _index, PVector _realWorldPoint) {
-  if (bodyColor) {
-    stroke(userClr[ int(random(userClr.length - 1))]);
-    fill(userClr[ int(random(userClr.length - 1))]);
-  }
-  text(letters[int(random(letters.length-1))], _realWorldPoint.x, _realWorldPoint.y, _realWorldPoint.z);
-}
-
-//  Draw Letters
-void pintaLetr(int letraS, PVector _realWorldPoint) {
-  text(letters[int(random(letters.length-1))], _realWorldPoint.x, _realWorldPoint.y, _realWorldPoint.z);
-}
-
-
-//Matrix Function
-void matrix(float xHnd, float yHnd) {
-  fill(0, 255, 0);
-  for (int i = 0; i<20; i += 1) {   // star init
-    stars.add(new PVector(random(width), random(height), random(1, 3)));
-  }
-
-  for (int i = 0; i<stars.size (); i+=2) {
-    float x =stars.get(i).x;//local vars
-    float y =stars.get(i).y;
-    float d =stars.get(i).z;
-    stars.set(i, new PVector(x-map(xHnd, 0, width, -0.05, 0.05)*(w2-x), y-map(yHnd, 0, height, -0.05, 0.05)*(h2-y), d + 0.2 - 0.6 * noise(x, y, frameCount)));
-    if (d>3||d< -3) stars.set(i, new PVector(x, y, 1));
-    if (x<0||x>width||y<0||y>height) stars.remove(i);
-    if (stars.size()>9999) stars.remove(1);
-    pintaLetr(int(random(20)), new PVector(x, y, d));
   }
 }
 
