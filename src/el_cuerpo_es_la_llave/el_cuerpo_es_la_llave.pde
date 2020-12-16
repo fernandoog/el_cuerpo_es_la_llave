@@ -76,7 +76,7 @@ void setup()
   //Kinect
   context = new SimpleOpenNI(this);
   // disable mirror
-  context.setMirror(false);
+  context.setMirror(true);
   // enable depthMap generation 
   context.enableDepth();
   // enable skeleton generation for all joints
@@ -122,7 +122,7 @@ void draw()
 }
 
 // Draw Matrix
-void drawmatrix() {
+void drawMatrix() {
   fill(0, 50);
   rect(0, 0, width, height);
   context.update();
@@ -145,16 +145,12 @@ void drawBody() {
     for (int x=0; x < context.depthWidth (); x+=steps)
     {
       index = x + y * context.depthWidth();
-      if (depthMap[index] > 0)
-      { 
-        // draw the projected point
-        realWorldPoint = context.depthMapRealWorld()[index];
-        if (userMap[index] == 0) {
-          stroke(100);
-        } else {
-          //el que
-          pintaLetr(userMap, index, 32, realWorldPoint);
-        }
+      // draw the projected point
+      realWorldPoint = context.depthMapRealWorld()[index];
+      if (userMap[index] == 0) {
+        stroke(100);
+      } else {
+        pintaLetr(userMap, index,realWorldPoint);
       }
     }
   }
@@ -334,7 +330,7 @@ void drawSensor() {
 }
 
 // Draw Letters whith map
-void pintaLetr(int[] _userMap, int _index, int letraS, PVector _realWorldPoint) {
+void pintaLetr(int[] _userMap, int _index, PVector _realWorldPoint) {
   if (bodyColor) {
     stroke(userClr[ int(random(userClr.length - 1))]);
     fill(userClr[ int(random(userClr.length - 1))]);
