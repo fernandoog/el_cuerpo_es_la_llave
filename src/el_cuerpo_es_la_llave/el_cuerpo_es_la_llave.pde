@@ -179,16 +179,7 @@ void drawBody() {
 
 // Draw Hands
 void drawHands() {
-  int[] userList = context.getUsers();
-  for (int i=0; i<userList.length; i++)
-  {
-    if (context.isTrackingSkeleton(userList[i])) {
-      context.getJointPositionSkeleton(userList[i], SimpleOpenNI.SKEL_LEFT_HAND, jointPosLeft);
-      context.getJointPositionSkeleton(userList[i], SimpleOpenNI.SKEL_RIGHT_HAND, jointPosRight);       
-      ellipse(jointPosLeft.x, jointPosLeft.y, 30, 30);
-      ellipse(jointPosRight.x, jointPosRight.y, 30, 30);
-    }
-  }
+ 
 }
 
 //Draw Sensor
