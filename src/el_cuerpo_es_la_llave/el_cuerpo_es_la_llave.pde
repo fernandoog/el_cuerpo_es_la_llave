@@ -20,7 +20,7 @@ boolean camera = false;
 
 /// SimpleOpenNI
 SimpleOpenNI context;
-float        zoomF =0.25f;
+
 
 // Colores cuerpo
 color[]       userClr = new color[] { 
@@ -47,8 +47,9 @@ float d2;
 int columns;
 int rows;
 int[] place;
-int charsize = 15;
-int   steps = 10;  // to speed up the drawing, draw every third point
+int charsize = 1;
+int   steps = 5;  // Rosolucion cuerpo
+float scale = 0.45; //Scale cuerpo
 
 //Body
 boolean bodyColor = true;
@@ -58,6 +59,7 @@ PVector jointPosRight = new PVector(0, 0, 0);
 
 void setup()
 {
+  //Size (800,600,D3D);
   fullScreen(screenNumber);
   background(0);
 
@@ -75,8 +77,6 @@ void setup()
 
   //Kinect
   context = new SimpleOpenNI(this);
-  // disable mirror
-  context.setMirror(true);
   // enable depthMap generation 
   context.enableDepth();
   // enable skeleton generation for all joints
@@ -140,18 +140,20 @@ void drawMatrix() {
     if (d>3||d< -3) stars.set(i, new PVector(x, y, 1));
     if (x<0||x>width||y<0||y>height) stars.remove(i);
     if (stars.size()>9999) stars.remove(1);
-    text(letters[int(random(letters.length-1))], x, y, z);
+    text(letters[int(random(letters.length-1))], x, y, d);
   }
 }
 
 // Draw Body
 void drawBody() {
+  // Ajusto el centro
+  translate(displayWidth/2, displayHeight/2);
+  scale(scale, scale);
+  // Draw the body
   int[]   depthMap = context.depthMap();
   int[]   userMap = context.userMap();
   int     index;
   PVector realWorldPoint;
-  // set the rotation center of the scene 1000 infront of the camera
-
   // draw the pointcloud
    if (bodyColor) {
     stroke(userClr[ int(random(userClr.length - 1))]);
@@ -169,7 +171,7 @@ void drawBody() {
       if (userMap[index] == 0) {
         stroke(100);
       } else {
-        text(letters[int(random(letters.length-1))], realWorldPoint.x, realWorldPoint.y, realWorldPoint.z);
+        text(letters[int(random(letters.length-1))], realWorldPoint.x, -realWorldPoint.y , realWorldPoint.z);
       }
     }
   }
