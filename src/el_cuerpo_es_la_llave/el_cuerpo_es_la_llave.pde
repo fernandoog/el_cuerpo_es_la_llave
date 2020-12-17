@@ -8,6 +8,7 @@
 import SimpleOpenNI.*;
 import processing.serial.*;
 import java.util.Iterator;
+import processing.sound.*;
 
 // MultiScreen
 int screenNumber = 1;
@@ -60,6 +61,11 @@ PVector jointPosRight = new PVector(0, 0, 0);
 int handSize = 40; // Tamaño mano
 int headSize = 150; // Tamaño cabeza
 
+//Sound
+SoundFile soundfile;
+String filename = "music.mp3";
+float velocidad = 1.0;
+float volumen = 1.0;
 
 void setup()
 {
@@ -114,6 +120,16 @@ void setup()
     // set each brightness at the midpoint to start
     bright[i] = 128;
   }
+
+  //Soundfile
+  try {
+    soundfile = new SoundFile(this, filename);
+    println("Sound file name and duration = "+ filename +" "+ soundfile.duration() + " seconds");
+    soundfile.loop();
+  }
+  catch(NullPointerException e) {
+    println("Error cargando sonido " +filename );
+  }
 }
 
 
@@ -124,6 +140,7 @@ void draw()
   drawHands();
   drawHead();
   drawSensor();
+  drawSound();
 }
 
 // Draw Matrix
@@ -234,7 +251,7 @@ void drawSensor() {
     ellipse(jointPosHead.x, -jointPosHead.y, headSize, headSize);
     fill(0, 0, 255);
     noStroke();
-    ellipse(jointPosHead.x, -jointPosHead.y,eeg.meditation, eeg.meditation);
+    ellipse(jointPosHead.x, -jointPosHead.y, eeg.meditation, eeg.meditation);
 
 
     // Chart vector values
@@ -375,6 +392,19 @@ void drawSensor() {
       j++;
     }
   }
+}
+
+// Draw interactive sound
+void drawSound() {
+  try {
+    velocidad = map(Math.abs(-jointPosRight.y), 0, width, 1.0, 2.0);
+    volumen = map(Math.abs(eeg.meditation), 0, width, 0.8, 1.0);
+  }
+  catch(NullPointerException e) {
+    println("Error cargando señales "+ velocidad +" "+ volumen);
+  }
+  soundfile.rate(velocidad);
+  soundfile.amp(volumen);
 }
 
 // Serial event
