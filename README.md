@@ -14,8 +14,7 @@ Arrancar proyecto en Processing 3
 Basado en :
 
 https://github.com/totovr/SimpleOpenNI/tree/master/SimpleOpenNI
-
-y
+https://github.com/guanix/processing-neurosky
 
 
 
@@ -29,3 +28,5 @@ https://www.microsoft.com/en-us/download/details.aspx?id=44561
 
 Copiar la libreria SimpleOpenNI descomprimida a:
 Documents\Processing\libraries
+
+
