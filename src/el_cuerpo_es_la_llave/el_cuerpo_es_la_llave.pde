@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------
  * Based on Max Rheiner + Rodrigo Godo + Interactivas17 + MediaLab Prado
- * This version came from Fernando Ortega Gorrita y Luis 
+ * This version came from Cata , Luis and Fernando in the Interactivas Medialab.
  * https://www.medialab-prado.es/actividades/taller-corporal-con-sensores-reset-el-cuerpo-es-la-llave
  * 2020/12/16
  */

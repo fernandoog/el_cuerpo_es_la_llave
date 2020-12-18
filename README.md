@@ -1,4 +1,4 @@
-# el_cuerpo_es_la_llave
+# el_cuerpo_es_la_llave for for Processing 3
 https://www.medialab-prado.es/actividades/taller-corporal-con-sensores-reset-el-cuerpo-es-la-llave
 
 
@@ -13,6 +13,8 @@ Arrancar proyecto en Processing 3
 
 Basado en :
 
+Max Rheiner + Rodrigo Godo + Interactivas + MediaLab Prado
+This version came from Cata , Luis and Fernando in the Interactivas Medialab.
 https://github.com/totovr/SimpleOpenNI/tree/master/SimpleOpenNI
 https://github.com/guanix/processing-neurosky
 
@@ -26,7 +28,7 @@ https://www.microsoft.com/en-us/download/details.aspx?id=40278
 https://www.microsoft.com/en-us/download/details.aspx?id=44561
 
 
-Copiar la libreria SimpleOpenNI descomprimida a:
+Copiar la libreria SimpleOpenNI a:
 Documents\Processing\libraries
 
 
