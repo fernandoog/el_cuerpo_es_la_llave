@@ -31,4 +31,5 @@ https://www.microsoft.com/en-us/download/details.aspx?id=44561
 Copiar la libreria SimpleOpenNI a:
 Documents\Processing\libraries
 
+https://code.google.com/archive/p/simple-openni/wikis/Installation.wiki
 
