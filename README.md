@@ -30,5 +30,10 @@ https://www.microsoft.com/en-us/download/details.aspx?id=44561
 Copiar la libreria SimpleOpenNI a:
 Documents\Processing\libraries
 
+Linux:
+sudo apt install freenect
+Copiar la libreria SimpleOpenNI a:
+sketchbook/libraries
+
 
 
