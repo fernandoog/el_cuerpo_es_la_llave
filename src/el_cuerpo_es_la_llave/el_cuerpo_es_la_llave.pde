@@ -18,10 +18,11 @@ String portName ="COM10";
 eegPort eeg;
 Serial serialPort;
 boolean sensor = false;
-boolean camera = false;
+
 
 /// SimpleOpenNI
 SimpleOpenNI context;
+boolean camera = false;
 
 
 // Colores cuerpo
@@ -396,12 +397,11 @@ void drawSensor() {
 
 // Draw interactive sound
 void drawSound() {
-  try {
+  if (camera) {
     velocidad = map(Math.abs(-jointPosRight.y), 0, width, 1.0, 2.0);
-    volumen = map(Math.abs(eeg.meditation), 0, width, 0.8, 1.0);
   }
-  catch(NullPointerException e) {
-    println("Error cargando señales "+ velocidad +" "+ volumen);
+  if (sensor) {
+    volumen = map(Math.abs(eeg.meditation), 0, width, 0.8, 1.0);
   }
   soundfile.rate(velocidad);
   soundfile.amp(volumen);
