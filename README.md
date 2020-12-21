@@ -1,4 +1,4 @@
-# el_cuerpo_es_la_llave for for Processing 3
+# el_cuerpo_es_la_llave Processing 3
 https://www.medialab-prado.es/actividades/taller-corporal-con-sensores-reset-el-cuerpo-es-la-llave
 
 
